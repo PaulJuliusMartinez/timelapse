@@ -1,6 +1,7 @@
 import re
 import os
 import glob
+import sys
 
 def prepareTimelapse(location, dimensionStr):
 	parse = re.match('^(\d+)x(\d+)$', dimensionStr)
@@ -22,9 +23,13 @@ def prepareTimelapse(location, dimensionStr):
 	os.makedirs(tempFolder)
 
 	fileNumber = 0
+	print 'Beginning to resize images, prints a "." for each 10 pictures converted.'
 	for imageFile in imageFiles:
-		os.system('convert ' + imageFile + ' -resize ' + width + 'x' + height + '^ ' + location + '/timelapse_images/image' + str(fileNumber).zfill(6) + '.jpg')
+		# os.system('convert ' + imageFile + ' -resize ' + width + 'x' + height + '^ ' + location + '/timelapse_images/image' + str(fileNumber).zfill(6) + '.jpg')
 		fileNumber = fileNumber + 1
+		if (fileNumber % 10 == 0):
+			sys.stdout.write('.')
+
 
 
 def createTimelapse(location, framerate):
@@ -33,9 +38,10 @@ def createTimelapse(location, framerate):
 		print 'There is no "timelapse_images" folder in this directory.'
 		return
 
-	
+	os.system('ffmpeg -r ' + str(framerate) + ' -i ' + imageFolder + '/image%06d.jpg -sameq ' + location + '/timelapse' + str(framerate) + '.mp4')	
 
-import sys
+
+
 
 def cleanupTimelapse(location):
 	valid = {'yes':True, 'ye':True, 'y':True, 'no':False, 'n':False}
