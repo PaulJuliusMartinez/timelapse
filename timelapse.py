@@ -25,7 +25,7 @@ def prepareTimelapse(location, dimensionStr):
 	fileNumber = 0
 	print 'Beginning to resize images, prints a "." for each 10 pictures converted.'
 	for imageFile in imageFiles:
-		# os.system('convert ' + imageFile + ' -resize ' + width + 'x' + height + '^ ' + location + '/timelapse_images/image' + str(fileNumber).zfill(6) + '.jpg')
+		os.system('convert ' + imageFile + ' -resize ' + width + 'x' + height + '^ ' + location + '/timelapse_images/image' + str(fileNumber).zfill(6) + '.jpg')
 		fileNumber = fileNumber + 1
 		if (fileNumber % 10 == 0):
 			sys.stdout.write('.')
